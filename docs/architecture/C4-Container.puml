@@ -1,0 +1,36 @@
+@startuml C4-Container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Container Diagram - ArchitecturePlayground E-Commerce
+
+Person(customer, "Customer", "Browses and purchases products")
+
+System_Boundary(platform, "E-Commerce Platform") {
+    Container(spa, "Vue SPA", "Vue 3, TypeScript, Pinia", "Single-page application for customers")
+    Container(api, "API Application", ".NET 9, ASP.NET Core", "Modular monolith hosting all business modules")
+
+    ContainerDb(postgres, "PostgreSQL", "Supabase", "Stores users, orders, payments")
+    ContainerDb(mongodb, "MongoDB", "Atlas", "Stores product catalog with flexible schema")
+    ContainerDb(redis, "Redis", "Upstash", "Session cache, shopping cart, rate limiting")
+    ContainerQueue(rabbitmq, "RabbitMQ", "CloudAMQP", "Async event messaging between modules")
+}
+
+System_Ext(stripe, "Stripe", "Payment gateway")
+System_Ext(sendgrid, "SendGrid", "Email service")
+System_Ext(azure, "Azure Services", "Key Vault, Blob Storage, App Insights")
+
+Rel(customer, spa, "Uses", "HTTPS")
+Rel(spa, api, "Calls", "HTTPS/JSON")
+
+Rel(api, postgres, "Reads/Writes", "TCP/SSL")
+Rel(api, mongodb, "Reads/Writes", "TCP/SSL")
+Rel(api, redis, "Reads/Writes", "TCP/SSL")
+Rel(api, rabbitmq, "Publishes/Consumes", "AMQP")
+
+Rel(api, stripe, "Processes payments", "HTTPS")
+Rel(api, sendgrid, "Sends emails", "HTTPS")
+Rel(api, azure, "Secrets, Storage, Monitoring", "HTTPS")
+
+@enduml

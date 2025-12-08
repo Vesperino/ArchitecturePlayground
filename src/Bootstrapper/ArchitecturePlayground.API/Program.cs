@@ -1,0 +1,68 @@
+using Serilog;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+builder.Host.UseSerilog((context, loggerConfig) =>
+{
+    loggerConfig
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .WriteTo.Console();
+});
+
+// Add services to the container
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new()
+    {
+        Title = "ArchitecturePlayground API",
+        Version = "v1",
+        Description = "E-Commerce Platform demonstrating enterprise architecture patterns"
+    });
+});
+
+// TODO: Add module registrations
+// builder.Services.AddIdentityModule(builder.Configuration);
+// builder.Services.AddCatalogModule(builder.Configuration);
+// builder.Services.AddOrderingModule(builder.Configuration);
+// builder.Services.AddBasketModule(builder.Configuration);
+// builder.Services.AddPaymentModule(builder.Configuration);
+// builder.Services.AddNotificationModule(builder.Configuration);
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "ArchitecturePlayground API v1");
+        options.RoutePrefix = "swagger";
+    });
+}
+
+app.UseHttpsRedirection();
+
+// Health check endpoint
+app.MapGet("/health", () => Results.Ok(new { Status = "Healthy", Timestamp = DateTime.UtcNow }))
+    .WithTags("Health")
+    .WithName("HealthCheck");
+
+// Root endpoint
+app.MapGet("/", () => Results.Redirect("/swagger"))
+    .ExcludeFromDescription();
+
+// TODO: Map module endpoints
+// app.MapIdentityEndpoints();
+// app.MapCatalogEndpoints();
+// app.MapOrderingEndpoints();
+// app.MapBasketEndpoints();
+// app.MapPaymentEndpoints();
+
+app.Run();
+
+// Required for integration tests
+public partial class Program;

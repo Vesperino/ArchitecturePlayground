@@ -1,0 +1,35 @@
+@startuml C4-Component-Identity
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram - Identity Module
+
+Container_Boundary(identity, "Identity Module") {
+
+    Component(endpoints, "Endpoints", "Minimal API", "HTTP endpoints for auth operations")
+
+    Component_Ext(features, "Features", "Vertical Slices", "Register, Login, RefreshToken, etc.")
+
+    Component(domain, "Domain", "Entities & Value Objects", "User, Role, Email, Password")
+
+    Component(services, "Services", "Infrastructure", "JwtTokenService, PasswordHasher, OAuthService")
+
+    Component(persistence, "Persistence", "EF Core", "IdentityDbContext, UserConfiguration")
+
+    Component(contracts, "Contracts", "Public API", "IIdentityModule, UserDto, UserCreatedEvent")
+}
+
+ContainerDb(postgres, "PostgreSQL", "Supabase", "identity schema")
+System_Ext(oauth, "OAuth Providers", "Google, GitHub")
+ContainerQueue(rabbitmq, "RabbitMQ", "Integration Events")
+
+Rel(endpoints, features, "Dispatches commands/queries")
+Rel(features, domain, "Uses domain logic")
+Rel(features, services, "Uses infrastructure")
+Rel(services, persistence, "Persists data")
+Rel(persistence, postgres, "Reads/Writes")
+Rel(services, oauth, "Authenticates via")
+Rel(features, rabbitmq, "Publishes events via Outbox")
+
+@enduml

@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>ArchitecturePlayground.Tests.Architecture</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Identity\Identity.Core\Identity.Core.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Catalog\Catalog.Core\Catalog.Core.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Ordering\Ordering.Core\Ordering.Core.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Basket\Basket.Core\Basket.Core.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Payment\Payment.Core\Payment.Core.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Notification\Notification.Core\Notification.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="NetArchTest.Rules" />
+  </ItemGroup>
+
+</Project>

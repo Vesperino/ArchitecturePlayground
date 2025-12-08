@@ -1,0 +1,26 @@
+@startuml C4-Context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title System Context Diagram - ArchitecturePlayground E-Commerce
+
+Person(customer, "Customer", "A user who browses products and makes purchases")
+Person(admin, "Administrator", "Manages products, orders, and users")
+
+System(ecommerce, "E-Commerce Platform", "Allows customers to browse products, manage cart, and place orders")
+
+System_Ext(stripe, "Stripe", "Payment processing gateway")
+System_Ext(sendgrid, "SendGrid", "Transactional email service")
+System_Ext(oauth, "OAuth Providers", "Google, GitHub for social login")
+System_Ext(cloudamqp, "CloudAMQP", "Managed RabbitMQ for async messaging")
+
+Rel(customer, ecommerce, "Browses products, places orders", "HTTPS")
+Rel(admin, ecommerce, "Manages catalog, views reports", "HTTPS")
+
+Rel(ecommerce, stripe, "Processes payments", "HTTPS/API")
+Rel(ecommerce, sendgrid, "Sends emails", "HTTPS/API")
+Rel(ecommerce, oauth, "Authenticates users", "OAuth 2.0")
+Rel(ecommerce, cloudamqp, "Publishes/consumes events", "AMQP")
+
+@enduml

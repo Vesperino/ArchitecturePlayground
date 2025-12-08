@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # PostgreSQL - Main database for Identity, Orders, Payments
+  postgres:
+    image: postgres:16-alpine
+    container_name: architectureplayground-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: architectureplayground
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MongoDB - Catalog with flexible product attributes
+  mongodb:
+    image: mongo:7
+    container_name: architectureplayground-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis - Caching, sessions, basket
+  redis:
+    image: redis:7-alpine
+    container_name: architectureplayground-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ - Async messaging
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: architectureplayground-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Seq - Structured logging (development)
+  seq:
+    image: datalust/seq:latest
+    container_name: architectureplayground-seq
+    environment:
+      ACCEPT_EULA: Y
+    ports:
+      - "5341:5341" # Ingestion
+      - "8081:80"   # UI
+    volumes:
+      - seq_data:/data
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+  rabbitmq_data:
+  seq_data:
