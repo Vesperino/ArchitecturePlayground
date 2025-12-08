@@ -88,4 +88,4 @@ Build our own mediator without MediatR.
 ## References
 
 - [MediatR documentation](https://github.com/jbogard/MediatR)
-- [CQRS Pattern - Microsoft](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs)
+- [CQRS Pattern - Microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)

@@ -1,22 +1,22 @@
 # ArchitecturePlayground - E-commerce Platform
 
-## Wizja Projektu
-Kompleksowa platforma e-commerce demonstrująca umiejętności senior developera w .NET 9 + Vue 3.
-**Architektura: Modular Monolith + Vertical Slice Architecture** (trend 2025)
+## Project Vision
+Comprehensive e-commerce platform demonstrating senior developer skills in .NET 9 + Vue 3.
+**Architecture: Modular Monolith + Vertical Slice Architecture** (2025 trend)
 
 ---
 
-## Dlaczego Modular Monolith zamiast Microservices?
+## Why Modular Monolith instead of Microservices?
 
-| Aspekt | Microservices | Modular Monolith |
+| Aspect | Microservices | Modular Monolith |
 |--------|---------------|------------------|
-| Kompleksność | Wysoka (sieć, discovery, orchestration) | Niska (jeden deployment) |
-| Koszty DevOps | Wysokie | Niskie |
-| Transakcje | Rozproszone (Saga, 2PC) | ACID w ramach modułów |
-| Debugging | Trudne (distributed tracing) | Łatwe (jeden proces) |
-| Skalowanie | Niezależne per service | Horyzontalne całej app |
-| Ścieżka migracji | N/A | → Microservices gdy potrzeba |
-| **Trend 2025** | ❌ Over-engineering hype | ✅ Pragmatyczne podejście |
+| Complexity | High (network, discovery, orchestration) | Low (single deployment) |
+| DevOps Costs | High | Low |
+| Transactions | Distributed (Saga, 2PC) | ACID within modules |
+| Debugging | Difficult (distributed tracing) | Easy (single process) |
+| Scaling | Independent per service | Horizontal scaling of entire app |
+| Migration Path | N/A | → Microservices when needed |
+| **2025 Trend** | ❌ Over-engineering hype | ✅ Pragmatic approach |
 
 > "Amazon Prime Video abandoned microservices, cutting costs by 90%"
 > "Start with modular monolith, move to microservices when scaling pain is real"
@@ -25,13 +25,13 @@ Kompleksowa platforma e-commerce demonstrująca umiejętności senior developera
 
 ## Tech Stack
 
-| Warstwa | Technologia |
+| Layer | Technology |
 |---------|-------------|
 | Backend | .NET 9, ASP.NET Core Minimal APIs |
 | Architecture | Modular Monolith + Vertical Slice + DDD |
 | Frontend | Vue 3 (Composition API), TypeScript, Pinia, TailwindCSS |
-| Bazy danych | PostgreSQL (główna), MongoDB (katalog), Redis (cache) |
-| ORM | Entity Framework Core 9, Dapper (raporty) |
+| Databases | PostgreSQL (main), MongoDB (catalog), Redis (cache) |
+| ORM | Entity Framework Core 9, Dapper (reports) |
 | Messaging | MediatR (sync) + MassTransit/RabbitMQ (async) |
 | Cloud | VPS + Cloud managed services (hybrid) |
 | Container | Docker, Docker Compose |
@@ -39,9 +39,9 @@ Kompleksowa platforma e-commerce demonstrująca umiejętności senior developera
 
 ---
 
-## Architektura - Modular Monolith + Vertical Slice
+## Architecture - Modular Monolith + Vertical Slice
 
-### Struktura Solution (.sln)
+### Solution Structure (.sln)
 
 ```
 ArchitecturePlayground.sln
@@ -49,13 +49,13 @@ ArchitecturePlayground.sln
 ├── src/
 │   │
 │   ├── Bootstrapper/
-│   │   └── ArchitecturePlayground.API/           # 🚀 JEDEN HOST DLA WSZYSTKIEGO
+│   │   └── ArchitecturePlayground.API/           # 🚀 SINGLE HOST FOR EVERYTHING
 │   │       ├── Program.cs                        # Composition root
 │   │       ├── appsettings.json
 │   │       ├── ArchitecturePlayground.API.csproj
 │   │       └── Dockerfile
 │   │
-│   ├── Modules/                                  # 📦 MODUŁY BIZNESOWE
+│   ├── Modules/                                  # 📦 BUSINESS MODULES
 │   │   │
 │   │   ├── Identity/
 │   │   │   ├── Identity.Core/                    # Domain + Application (Vertical Slices)
@@ -98,7 +98,7 @@ ArchitecturePlayground.sln
 │   │   │   │   │   └── OAuthService.cs
 │   │   │   │   └── Identity.Infrastructure.csproj
 │   │   │   │
-│   │   │   └── Identity.Contracts/               # 📋 PUBLIC API dla innych modułów
+│   │   │   └── Identity.Contracts/               # 📋 PUBLIC API for other modules
 │   │   │       ├── IIdentityModule.cs
 │   │   │       ├── DTOs/
 │   │   │       │   └── UserDto.cs
@@ -197,7 +197,7 @@ ArchitecturePlayground.sln
 │   │   │   │   └── TransactionBehavior.cs
 │   │   │   └── Shared.Infrastructure.csproj
 │   │   │
-│   │   └── Shared.Contracts/                     # Integration events między modułami
+│   │   └── Shared.Contracts/                     # Integration events between modules
 │   │       ├── Events/
 │   │       │   ├── OrderCreatedIntegrationEvent.cs
 │   │       │   └── PaymentCompletedIntegrationEvent.cs
@@ -230,7 +230,7 @@ ArchitecturePlayground.sln
 │   │   ├── Ordering.Tests/
 │   │   └── Basket.Tests/
 │   ├── Architecture.Tests/
-│   │   └── ModuleDependencyTests.cs              # NetArchTest - sprawdza granice modułów
+│   │   └── ModuleDependencyTests.cs              # NetArchTest - validates module boundaries
 │   └── E2E.Tests/
 │       └── PlaywrightTests/
 │
@@ -257,7 +257,7 @@ ArchitecturePlayground.sln
 └── README.md
 ```
 
-### Vertical Slice Architecture - Struktura Feature
+### Vertical Slice Architecture - Feature Structure
 
 ```
 Features/
@@ -266,7 +266,7 @@ Features/
     ├── RegisterHandler.cs        # Business logic
     ├── RegisterValidator.cs      # FluentValidation
     ├── RegisterEndpoint.cs       # Minimal API endpoint
-    └── RegisterResponse.cs       # Response DTO (opcjonalnie)
+    └── RegisterResponse.cs       # Response DTO (optional)
 ```
 
 ```csharp
@@ -313,7 +313,7 @@ public static class RegisterEndpoint
 }
 ```
 
-### Komunikacja między modułami
+### Inter-Module Communication
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -344,11 +344,11 @@ public static class RegisterEndpoint
 └─────────────┘         └─────────────┘         └─────────────┘
 ```
 
-**Zasady komunikacji:**
-1. Moduły **NIE** mogą bezpośrednio referencjonować inne moduły (.Core, .Infrastructure)
-2. Komunikacja tylko przez **Contracts** (interfejsy, DTOs, Integration Events)
-3. **MediatR** dla synchronicznych operacji w ramach HTTP request
-4. **MassTransit + RabbitMQ** dla asynchronicznych operacji (scalability ready)
+**Communication Rules:**
+1. Modules **CANNOT** directly reference other modules (.Core, .Infrastructure)
+2. Communication only through **Contracts** (interfaces, DTOs, Integration Events)
+3. **MediatR** for synchronous operations within HTTP request
+4. **MassTransit + RabbitMQ** for asynchronous operations (scalability ready)
 
 ---
 
@@ -431,17 +431,17 @@ public static class RegisterEndpoint
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Kiedy MediatR vs RabbitMQ
+### When to use MediatR vs RabbitMQ
 
-| Operacja | Transport | Dlaczego |
+| Operation | Transport | Why |
 |----------|-----------|----------|
-| Query (GET) | MediatR | Sync, potrzebujemy response |
-| Simple Command | MediatR | Szybkie, w ramach request |
-| Long-running | RabbitMQ | Nie blokujemy HTTP |
+| Query (GET) | MediatR | Sync, we need response |
+| Simple Command | MediatR | Fast, within request |
+| Long-running | RabbitMQ | Don't block HTTP |
 | Cross-module side effects | RabbitMQ | Loose coupling |
 | External API calls | RabbitMQ | Retry, timeout handling |
-| Notifications | RabbitMQ | Fire-and-forget z durability |
-| Analytics/Audit | RabbitMQ | Nie spowalniamy core flow |
+| Notifications | RabbitMQ | Fire-and-forget with durability |
+| Analytics/Audit | RabbitMQ | Don't slow down core flow |
 
 ### Outbox Pattern Implementation
 
@@ -458,15 +458,15 @@ public class OutboxMessage
     public int RetryCount { get; set; }
 }
 
-// W DbContext - zapisujemy razem z agregatem
+// In DbContext - save together with aggregate
 public override async Task<int> SaveChangesAsync(CancellationToken ct)
 {
-    // 1. Zbierz domain events z agregatów
+    // 1. Collect domain events from aggregates
     var domainEvents = ChangeTracker.Entries<AggregateRoot>()
         .SelectMany(x => x.Entity.DomainEvents)
         .ToList();
 
-    // 2. Konwertuj na OutboxMessages
+    // 2. Convert to OutboxMessages
     foreach (var @event in domainEvents)
     {
         OutboxMessages.Add(new OutboxMessage
@@ -477,11 +477,11 @@ public override async Task<int> SaveChangesAsync(CancellationToken ct)
         });
     }
 
-    // 3. Zapisz wszystko w jednej transakcji
+    // 3. Save everything in one transaction
     return await base.SaveChangesAsync(ct);
 }
 
-// Background Worker - publikuje do RabbitMQ
+// Background Worker - publishes to RabbitMQ
 public class OutboxProcessor : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken ct)
@@ -570,10 +570,10 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
 }
 ```
 
-### TDD Approach dla Messaging
+### TDD Approach for Messaging
 
 ```csharp
-// 1. Unit Test - Handler (bez RabbitMQ)
+// 1. Unit Test - Handler (without RabbitMQ)
 [Fact]
 public async Task CreateOrder_Should_SaveOrder_And_AddOutboxMessage()
 {
@@ -591,7 +591,7 @@ public async Task CreateOrder_Should_SaveOrder_And_AddOutboxMessage()
     _dbContext.OutboxMessages.First().Type.Should().Be("OrderCreatedEvent");
 }
 
-// 2. Integration Test - Consumer (z Testcontainers)
+// 2. Integration Test - Consumer (with Testcontainers)
 [Fact]
 public async Task InventoryConsumer_Should_Reserve_Stock()
 {
@@ -642,7 +642,7 @@ services.AddMassTransit(x =>
     x.AddConsumer<CompensationConsumer>();
 
     x.AddSagaStateMachine<OrderStateMachine, OrderState>()
-        .RedisRepository(r => r.ConnectionFactory(...));  // Redis dla Saga state
+        .RedisRepository(r => r.ConnectionFactory(...));  // Redis for Saga state
 
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -663,7 +663,7 @@ services.AddMassTransit(x =>
 });
 ```
 
-### Referencje między projektami
+### Project References
 
 ```xml
 <!-- Identity.Core.csproj -->
@@ -682,12 +682,12 @@ services.AddMassTransit(x =>
   </ItemGroup>
 </Project>
 
-<!-- Ordering.Core.csproj - może używać TYLKO Contracts innych modułów -->
+<!-- Ordering.Core.csproj - can only use Contracts from other modules -->
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Shared.Abstractions\Shared.Abstractions.csproj" />
     <ProjectReference Include="..\Ordering.Contracts\Ordering.Contracts.csproj" />
-    <!-- Dostęp do Identity tylko przez Contracts! -->
+    <!-- Access to Identity only through Contracts! -->
     <ProjectReference Include="..\..\Identity\Identity.Contracts\Identity.Contracts.csproj" />
   </ItemGroup>
 </Project>
@@ -695,7 +695,7 @@ services.AddMassTransit(x =>
 <!-- ArchitecturePlayground.API.csproj - Composition Root -->
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
-    <!-- Wszystkie moduły Infrastructure (rejestrują się w DI) -->
+    <!-- All module Infrastructure projects (register in DI) -->
     <ProjectReference Include="..\Modules\Identity\Identity.Infrastructure\Identity.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\Catalog\Catalog.Infrastructure\Catalog.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\Ordering\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
@@ -725,17 +725,17 @@ public void Modules_Should_Not_Reference_Other_Modules_Core()
 [Fact]
 public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 {
-    // Ordering może referencjonować Identity.Contracts, ale nie Identity.Core
+    // Ordering can reference Identity.Contracts, but not Identity.Core
 }
 ```
 
-### Shared Kernel - Abstrakcje
+### Shared Kernel - Abstractions
 
-| Projekt | Zawartość |
+| Project | Contents |
 |---------|-----------|
 | `Shared.Abstractions` | Entity, AggregateRoot, ValueObject, DomainEvent, ICommand, IQuery, Result |
 | `Shared.Infrastructure` | BaseDbContext, UnitOfWork, EventBus, Caching, Behaviors (MediatR) |
-| `Shared.Contracts` | Integration events współdzielone między modułami |
+| `Shared.Contracts` | Integration events shared between modules |
 
 ---
 
@@ -749,15 +749,15 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - Two-Factor Authentication (2FA)
 
 ### 2. Catalog Context (MongoDB)
-- Products z dynamicznymi atrybutami
+- Products with dynamic attributes
 - Categories, Tags
 - Full-text search
-- Product recommendations (algorytmy)
+- Product recommendations (algorithms)
 
 ### 3. Ordering Context (PostgreSQL)
 - Order Aggregate Root
 - Order Saga (state machine)
-- Event Sourcing (historia zmian)
+- Event Sourcing (change history)
 - CQRS (Command/Query separation)
 
 ### 4. Basket Context (Redis)
@@ -782,9 +782,9 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 
 ---
 
-## Fazy Implementacji
+## Implementation Phases
 
-### FAZA 1: Fundament (Tydzień 1-2)
+### PHASE 1: Foundation (Week 1-2)
 - [ ] Solution structure (Clean Architecture)
 - [ ] Docker Compose (PostgreSQL, MongoDB, Redis, RabbitMQ)
 - [ ] BuildingBlocks: Result pattern, Domain primitives
@@ -792,7 +792,7 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - [ ] Logging (Serilog + Seq)
 - [ ] Health checks
 
-### FAZA 2: Identity Service (Tydzień 3)
+### PHASE 2: Identity Service (Week 3)
 - [ ] User entity, Value Objects
 - [ ] ASP.NET Core Identity + EF Core
 - [ ] JWT generation/validation
@@ -801,7 +801,7 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - [ ] Rate limiting (Redis)
 - [ ] Unit tests (xUnit + Moq)
 
-### FAZA 3: Catalog Service (Tydzień 4)
+### PHASE 3: Catalog Service (Week 4)
 - [ ] MongoDB integration
 - [ ] Product Aggregate
 - [ ] Repository pattern
@@ -809,33 +809,33 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - [ ] Full-text search
 - [ ] Integration tests (Testcontainers)
 
-### FAZA 4: Basket Service (Tydzień 5)
+### PHASE 4: Basket Service (Week 5)
 - [ ] Redis integration
 - [ ] Basket aggregate
 - [ ] Cache-aside pattern
 - [ ] Distributed caching strategies
 
-### FAZA 5: Ordering Service (Tydzień 6-7)
+### PHASE 5: Ordering Service (Week 6-7)
 - [ ] Order Aggregate (DDD tactical patterns)
 - [ ] Domain Events
-- [ ] CQRS z MediatR
-- [ ] Event Sourcing (opcjonalnie Marten)
+- [ ] CQRS with MediatR
+- [ ] Event Sourcing (optionally Marten)
 - [ ] Saga pattern (order workflow)
 - [ ] Outbox pattern (transactional messaging)
 
-### FAZA 6: Payment & Notification (Tydzień 8)
+### PHASE 6: Payment & Notification (Week 8)
 - [ ] Payment processing (mock Stripe)
 - [ ] Idempotency keys
 - [ ] SignalR hub (real-time updates)
 - [ ] Email service
 
-### FAZA 7: Analytics (Tydzień 9)
+### PHASE 7: Analytics (Week 9)
 - [ ] Dapper raw SQL queries
 - [ ] Materialized views (PostgreSQL)
 - [ ] Time-series aggregations
 - [ ] Export to CSV/Excel
 
-### FAZA 8: Vue Frontend (Tydzień 10-11)
+### PHASE 8: Vue Frontend (Week 10-11)
 - [ ] Vue 3 + Vite + TypeScript
 - [ ] Pinia state management
 - [ ] Vue Router (guards)
@@ -844,7 +844,7 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - [ ] Form validation (VeeValidate + Zod)
 - [ ] Real-time (SignalR client)
 
-### FAZA 9: API Gateway & Security (Tydzień 12)
+### PHASE 9: API Gateway & Security (Week 12)
 - [ ] YARP reverse proxy
 - [ ] Request aggregation
 - [ ] OWASP hardening
@@ -852,7 +852,7 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - [ ] CORS configuration
 - [ ] API versioning
 
-### FAZA 10: DevOps & Cloud (Tydzień 13-14)
+### PHASE 10: DevOps & Cloud (Week 13-14)
 - [ ] Multi-stage Dockerfiles
 - [ ] Docker Compose (dev/prod)
 - [ ] GitHub Actions CI/CD
@@ -860,16 +860,16 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - [ ] K3s manifests (VPS ready)
 - [ ] Terraform (IaC basics)
 
-### FAZA 11: Advanced Testing (Tydzień 15)
+### PHASE 11: Advanced Testing (Week 15)
 - [ ] Architecture tests (NetArchTest)
 - [ ] Integration tests (Testcontainers)
 - [ ] E2E tests (Playwright)
 - [ ] Load tests (k6)
 - [ ] Mutation testing (Stryker)
 
-### FAZA 12: Polish & Documentation (Tydzień 16)
+### PHASE 12: Polish & Documentation (Week 16)
 - [ ] OpenAPI/Swagger docs
-- [ ] README z diagramami
+- [ ] README with diagrams
 - [ ] Architecture Decision Records (ADRs)
 - [ ] Performance tuning
 - [ ] Code review checklist
@@ -888,10 +888,10 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 - CQRS, Mediator
 - Saga, Outbox
 
-### SOLID w praktyce
-- **S**: Każdy service = 1 odpowiedzialność
-- **O**: Strategy pattern dla płatności
-- **L**: Proper inheritance w domain
+### SOLID in Practice
+- **S**: Each service = 1 responsibility
+- **O**: Strategy pattern for payments
+- **L**: Proper inheritance in domain
 - **I**: Segregated interfaces (IReadRepository, IWriteRepository)
 - **D**: Dependency Injection everywhere
 
@@ -914,7 +914,7 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 
 ---
 
-## Struktura pierwszych plików do utworzenia
+## Initial File Structure to Create
 
 ```
 ArchitecturePlayground.sln
@@ -957,7 +957,7 @@ docker/
 
 ---
 
-## Kluczowe pliki do implementacji (Faza 1)
+## Key Files to Implement (Phase 1)
 
 1. `ArchitecturePlayground.sln` - Solution file
 2. `src/BuildingBlocks/BuildingBlocks.Common/Result.cs` - Result pattern
@@ -974,32 +974,32 @@ docker/
 
 ## Hosting Plan - Hybrid Cloud Architecture
 
-### Filozofia
-**VPS + Managed Cloud Services** = najlepsze z obu światów:
-- Aplikacje na VPS (tanie, nie zasypia, pełna kontrola)
-- Bazy/cache w cloud (managed, pokazuje cloud skills)
+### Philosophy
+**VPS + Managed Cloud Services** = best of both worlds:
+- Applications on VPS (cheap, doesn't sleep, full control)
+- Databases/cache in cloud (managed, showcases cloud skills)
 - Multi-cloud experience (Azure, Supabase, MongoDB Atlas, etc.)
 
 ### Development (Local)
-- Docker Compose (wszystko lokalnie)
+- Docker Compose (everything locally)
 - Hot reload (.NET + Vite)
-- LocalStack (AWS emulator - opcjonalnie)
+- LocalStack (AWS emulator - optional)
 
 ### Production - Hybrid Setup
 
-#### VPS (Hetzner CX22 ~€4/mies.)
-| Komponent | Opis |
+#### VPS (Hetzner CX22 ~€4/month)
+| Component | Description |
 |-----------|------|
 | .NET API Services | Docker containers |
 | Vue Frontend | Nginx static |
 | API Gateway (YARP) | Reverse proxy |
 | Traefik | Ingress + SSL (Let's Encrypt) |
 | K3s | Lightweight Kubernetes |
-| GitHub Actions Runner | Self-hosted (opcjonalnie) |
+| GitHub Actions Runner | Self-hosted (optional) |
 
 #### Cloud Managed Services (Free Tiers)
 
-| Usługa | Provider | Free Tier | Pokazuje |
+| Service | Provider | Free Tier | Demonstrates |
 |--------|----------|-----------|----------|
 | **PostgreSQL** | Supabase | 500MB, 2 projects | Supabase ecosystem |
 | **MongoDB** | MongoDB Atlas | 512MB | NoSQL, Atlas UI |
@@ -1014,13 +1014,13 @@ docker/
 | **CI/CD** | GitHub Actions | 2000 min/mth | DevOps |
 
 #### Azure Free Tier (12 months + Always Free)
-Wykorzystujemy Azure do pokazania enterprise cloud skills:
+Using Azure to showcase enterprise cloud skills:
 - **Azure Key Vault** - secrets management
-- **Azure Blob Storage** - pliki, obrazy produktów
+- **Azure Blob Storage** - files, product images
 - **Azure Application Insights** - monitoring, APM
-- **Azure Service Bus** - alternatywa dla RabbitMQ (opcjonalnie)
+- **Azure Service Bus** - alternative to RabbitMQ (optional)
 
-### Architektura połączeń
+### Connection Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -1065,38 +1065,38 @@ Wykorzystujemy Azure do pokazania enterprise cloud skills:
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-### Koszt miesięczny (szacowany)
-| Pozycja | Koszt |
+### Monthly Cost (estimated)
+| Item | Cost |
 |---------|-------|
 | Hetzner VPS CX22 | ~€4.50 |
-| Domena (.dev) | ~€1/mth |
+| Domain (.dev) | ~€1/month |
 | Cloud Services | €0 (free tiers) |
-| **RAZEM** | **~€5.50/mth** |
+| **TOTAL** | **~€5.50/month** |
 
 ---
 
-## Dokumentacja (docs/)
+## Documentation (docs/)
 
-### Struktura dokumentacji
+### Documentation Structure
 
 ```
 docs/
-├── README.md                        # Główny opis projektu
+├── README.md                        # Main project description
 ├── GETTING_STARTED.md               # Quick start guide
-├── CONTRIBUTING.md                  # Jak kontrybuować
+├── CONTRIBUTING.md                  # How to contribute
 │
 ├── architecture/
-│   ├── README.md                    # Przegląd architektury
+│   ├── README.md                    # Architecture overview
 │   ├── C4-Context.puml              # C4 Level 1 - System Context
 │   ├── C4-Container.puml            # C4 Level 2 - Containers
 │   ├── C4-Component-Identity.puml   # C4 Level 3 - Components
 │   ├── C4-Component-Ordering.puml
 │   ├── C4-Component-Catalog.puml
-│   └── tech-stack.md                # Opis technologii
+│   └── tech-stack.md                # Technology description
 │
 ├── adr/                             # Architecture Decision Records
-│   ├── README.md                    # Index ADRów
-│   ├── template.md                  # Szablon ADR
+│   ├── README.md                    # ADR index
+│   ├── template.md                  # ADR template
 │   ├── 0001-use-clean-architecture.md
 │   ├── 0002-use-cqrs-for-ordering.md
 │   ├── 0003-mongodb-for-catalog.md
@@ -1146,27 +1146,27 @@ docs/
     └── security-headers.md
 ```
 
-### C4 Model - Diagramy Architektury
+### C4 Model - Architecture Diagrams
 
 #### Level 1: System Context
 ```plantuml
 @startuml C4-Context
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-Person(customer, "Customer", "Kupuje produkty")
-Person(admin, "Admin", "Zarządza sklepem")
+Person(customer, "Customer", "Buys products")
+Person(admin, "Admin", "Manages store")
 
-System(ecommerce, "E-Commerce Platform", "Platforma zakupowa")
+System(ecommerce, "E-Commerce Platform", "Shopping platform")
 
 System_Ext(payment, "Payment Gateway", "Stripe")
 System_Ext(email, "Email Service", "SendGrid")
 System_Ext(oauth, "OAuth Providers", "Google, GitHub")
 
-Rel(customer, ecommerce, "Przegląda, kupuje")
-Rel(admin, ecommerce, "Zarządza")
-Rel(ecommerce, payment, "Przetwarza płatności")
-Rel(ecommerce, email, "Wysyła emaile")
-Rel(ecommerce, oauth, "Autentykacja")
+Rel(customer, ecommerce, "Browses, buys")
+Rel(admin, ecommerce, "Manages")
+Rel(ecommerce, payment, "Processes payments")
+Rel(ecommerce, email, "Sends emails")
+Rel(ecommerce, oauth, "Authentication")
 @enduml
 ```
 
@@ -1178,7 +1178,7 @@ Rel(ecommerce, oauth, "Autentykacja")
 Person(customer, "Customer")
 
 System_Boundary(platform, "E-Commerce Platform") {
-    Container(spa, "Vue SPA", "Vue 3, TypeScript", "Frontend aplikacji")
+    Container(spa, "Vue SPA", "Vue 3, TypeScript", "Application frontend")
     Container(gateway, "API Gateway", "YARP", "Routing, Auth")
 
     Container(identity, "Identity Service", ".NET 9", "Auth, Users")
@@ -1204,41 +1204,41 @@ Rel(gateway, ordering, "gRPC/REST")
 
 ### Architecture Decision Records (ADR)
 
-#### Szablon ADR (template.md)
+#### ADR Template (template.md)
 ```markdown
-# ADR-XXXX: [Tytuł decyzji]
+# ADR-XXXX: [Decision Title]
 
 ## Status
 [Proposed | Accepted | Deprecated | Superseded]
 
 ## Context
-[Opis problemu i kontekstu]
+[Problem description and context]
 
 ## Decision
-[Podjęta decyzja]
+[Decision made]
 
 ## Consequences
 ### Positive
-- [Korzyść 1]
-- [Korzyść 2]
+- [Benefit 1]
+- [Benefit 2]
 
 ### Negative
-- [Wada 1]
-- [Wada 2]
+- [Drawback 1]
+- [Drawback 2]
 
 ## Alternatives Considered
-1. [Alternatywa 1] - odrzucona bo...
-2. [Alternatywa 2] - odrzucona bo...
+1. [Alternative 1] - rejected because...
+2. [Alternative 2] - rejected because...
 ```
 
-#### Przykładowe ADRs do utworzenia
+#### Example ADRs to Create
 
-| ADR | Tytuł | Decyzja |
+| ADR | Title | Decision |
 |-----|-------|---------|
-| 0001 | Clean Architecture | Separacja warstw Domain/Application/Infrastructure/API |
-| 0002 | CQRS w Ordering | MediatR dla command/query separation |
-| 0003 | MongoDB dla Catalog | Elastyczne atrybuty produktów |
-| 0004 | Event Sourcing | Marten dla historii zamówień |
+| 0001 | Clean Architecture | Layer separation Domain/Application/Infrastructure/API |
+| 0002 | CQRS in Ordering | MediatR for command/query separation |
+| 0003 | MongoDB for Catalog | Flexible product attributes |
+| 0004 | Event Sourcing | Marten for order history |
 | 0005 | JWT Strategy | Access token 15min + Refresh token rotation |
 | 0006 | Outbox Pattern | Transactional messaging via EF Core |
 | 0007 | Hybrid Cloud | VPS + managed cloud services |
@@ -1248,13 +1248,13 @@ Rel(gateway, ordering, "gRPC/REST")
 
 ### OpenAPI / Swagger
 
-Automatyczna generacja z kodem:
-- **Swashbuckle** dla OpenAPI spec
-- **Scalar** lub **Swagger UI** dla dokumentacji
-- Export do `docs/api/openapi.yaml`
+Automatic generation with code:
+- **Swashbuckle** for OpenAPI spec
+- **Scalar** or **Swagger UI** for documentation
+- Export to `docs/api/openapi.yaml`
 - Postman collection generation
 
-### README.md - Główny plik
+### README.md - Main File
 
 ```markdown
 # 🏗️ ArchitecturePlayground
@@ -1277,7 +1277,7 @@ Automatyczna generacja z kodem:
 
 ## 🏛️ Architecture
 
-[Diagram C4]
+[C4 Diagram]
 
 ## 🚀 Quick Start
 
@@ -1319,17 +1319,17 @@ dotnet test --filter Category=Integration
 
 ---
 
-## Metryki sukcesu projektu
+## Project Success Metrics
 
-- [ ] 90%+ code coverage w domain layer
-- [ ] Wszystkie OWASP Top 10 zaadresowane
+- [ ] 90%+ code coverage in domain layer
+- [ ] All OWASP Top 10 addressed
 - [ ] < 200ms response time (P95)
-- [ ] Pełna dokumentacja OpenAPI
+- [ ] Complete OpenAPI documentation
 - [ ] Architecture tests passing
 - [ ] Zero critical security issues (SAST)
 - [ ] Working CI/CD pipeline
 - [ ] Kubernetes-ready deployment
-- [ ] Kompletne diagramy C4 (wszystkie poziomy)
-- [ ] Minimum 10 ADRs dokumentujących decyzje
-- [ ] README z badges i quick start
-- [ ] Postman collection dla wszystkich endpoints
+- [ ] Complete C4 diagrams (all levels)
+- [ ] Minimum 10 ADRs documenting decisions
+- [ ] README with badges and quick start
+- [ ] Postman collection for all endpoints

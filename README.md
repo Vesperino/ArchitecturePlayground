@@ -146,10 +146,10 @@ dotnet test --filter Category=Architecture
 
 ## Documentation
 
-- [Architecture Plan](docs/ARCHITECTURE_PLAN.md) - Full technical specification
+- [Architecture Overview](docs/architecture/README.md) - Architecture and C4 diagrams
+- [Tech Stack](docs/architecture/tech-stack.md) - Technology choices
 - [Architecture Decisions](docs/adr/) - ADRs
-- [API Documentation](docs/api/) - OpenAPI specs
-- [Diagrams](docs/diagrams/) - C4, sequence, ERD
+- [Architecture Plan](docs/ARCHITECTURE_PLAN.md) - Full technical specification
 
 ## Cloud Services (Free Tiers)
 

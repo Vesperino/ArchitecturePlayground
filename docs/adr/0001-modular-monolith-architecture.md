@@ -74,6 +74,6 @@ Single monolith with horizontal layers (Controllers, Services, Repositories).
 
 ## References
 
-- [Modular Monolith - Milan Jovanovic](https://www.milanjovanovic.tech/modular-monolith-architecture)
-- [Amazon Prime Video case study](https://www.primevideotech.com/video-streaming/scaling-up-the-prime-video-audio-video-monitoring-service-and-reducing-costs-by-90)
-- [ByteByteGo - Monolith vs Microservices](https://blog.bytebytego.com/p/monolith-vs-microservices-vs-modular)
+- [What Is a Modular Monolith? - Milan Jovanovic](https://www.milanjovanovic.tech/blog/what-is-a-modular-monolith)
+- [Amazon Prime Video Monolith Case Study - The New Stack](https://thenewstack.io/return-of-the-monolith-amazon-dumps-microservices-for-video-monitoring/)
+- [Amazon Prime Video Cost Reduction - DEV Community](https://dev.to/indika_wimalasuriya/amazon-prime-videos-90-cost-reduction-throuh-moving-to-monolithic-k4a)
