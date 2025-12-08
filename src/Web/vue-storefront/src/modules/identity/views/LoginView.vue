@@ -8,7 +8,6 @@ const isLoading = ref(false)
 const handleLogin = async () => {
   isLoading.value = true
   // TODO: Implement login logic
-  console.log('Login attempt:', email.value)
   isLoading.value = false
 }
 </script>

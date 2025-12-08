@@ -12,7 +12,6 @@ const products = ref([
 ])
 
 const addToCart = (productId: number) => {
-  console.log('Added to cart:', productId)
   // TODO: Implement cart logic
 }
 </script>

@@ -161,7 +161,7 @@ ArchitecturePlayground.sln
 │   │       └── Notification.Contracts/
 │   │
 │   ├── Shared/                                   # 🔧 SHARED KERNEL
-│   │   ├── Shared.Abstractions/
+│   │   ├── ArchitecturePlayground.Common.Abstractions/
 │   │   │   ├── Domain/
 │   │   │   │   ├── Entity.cs
 │   │   │   │   ├── AggregateRoot.cs
@@ -176,9 +176,9 @@ ArchitecturePlayground.sln
 │   │   │   │   ├── Result.cs
 │   │   │   │   └── Error.cs
 │   │   │   ├── Exceptions/
-│   │   │   └── Shared.Abstractions.csproj
+│   │   │   └── ArchitecturePlayground.Common.Abstractions.csproj
 │   │   │
-│   │   ├── Shared.Infrastructure/
+│   │   ├── ArchitecturePlayground.Common.Infrastructure/
 │   │   │   ├── Persistence/
 │   │   │   │   ├── BaseDbContext.cs
 │   │   │   │   └── UnitOfWork.cs
@@ -195,13 +195,13 @@ ArchitecturePlayground.sln
 │   │   │   │   ├── ValidationBehavior.cs
 │   │   │   │   ├── LoggingBehavior.cs
 │   │   │   │   └── TransactionBehavior.cs
-│   │   │   └── Shared.Infrastructure.csproj
+│   │   │   └── ArchitecturePlayground.Common.Infrastructure.csproj
 │   │   │
-│   │   └── Shared.Contracts/                     # Integration events between modules
+│   │   └── ArchitecturePlayground.Common.Contracts/  # Integration events between modules
 │   │       ├── Events/
 │   │       │   ├── OrderCreatedIntegrationEvent.cs
 │   │       │   └── PaymentCompletedIntegrationEvent.cs
-│   │       └── Shared.Contracts.csproj
+│   │       └── ArchitecturePlayground.Common.Contracts.csproj
 │   │
 │   └── Web/
 │       └── vue-storefront/                       # Vue 3 SPA
@@ -669,7 +669,7 @@ services.AddMassTransit(x =>
 <!-- Identity.Core.csproj -->
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Shared.Abstractions\Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Shared\ArchitecturePlayground.Common.Abstractions\ArchitecturePlayground.Common.Abstractions.csproj" />
     <ProjectReference Include="..\Identity.Contracts\Identity.Contracts.csproj" />
   </ItemGroup>
 </Project>
@@ -678,14 +678,14 @@ services.AddMassTransit(x =>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Identity.Core\Identity.Core.csproj" />
-    <ProjectReference Include="..\..\Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\ArchitecturePlayground.Common.Infrastructure\ArchitecturePlayground.Common.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
 
 <!-- Ordering.Core.csproj - can only use Contracts from other modules -->
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Shared.Abstractions\Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Shared\ArchitecturePlayground.Common.Abstractions\ArchitecturePlayground.Common.Abstractions.csproj" />
     <ProjectReference Include="..\Ordering.Contracts\Ordering.Contracts.csproj" />
     <!-- Access to Identity only through Contracts! -->
     <ProjectReference Include="..\..\Identity\Identity.Contracts\Identity.Contracts.csproj" />
@@ -733,9 +733,9 @@ public void Modules_Can_Only_Reference_Other_Modules_Contracts()
 
 | Project | Contents |
 |---------|-----------|
-| `Shared.Abstractions` | Entity, AggregateRoot, ValueObject, DomainEvent, ICommand, IQuery, Result |
-| `Shared.Infrastructure` | BaseDbContext, UnitOfWork, EventBus, Caching, Behaviors (MediatR) |
-| `Shared.Contracts` | Integration events shared between modules |
+| `ArchitecturePlayground.Common.Abstractions` | Entity, AggregateRoot, ValueObject, DomainEvent, ICommand, IQuery, Result |
+| `ArchitecturePlayground.Common.Infrastructure` | BaseDbContext, UnitOfWork, EventBus, Caching, Behaviors (MediatR) |
+| `ArchitecturePlayground.Common.Contracts` | Integration events shared between modules |
 
 ---
 

@@ -8,6 +8,16 @@ Accepted
 
 2025-01
 
+## Implementation Note (2025-12)
+
+**Phase 1 (Current)**: Using Render + Vercel instead of Hetzner VPS:
+- Backend: Render (Docker container, free tier with sleep after inactivity)
+- Frontend: Vercel (static hosting, auto-deploy from GitHub)
+- Managed services: As documented below
+
+This provides easier initial deployment with Docker support while maintaining the hybrid cloud approach.
+Migration to Hetzner VPS (Phase 2) possible for 24/7 uptime when needed.
+
 ## Context
 
 We need a hosting strategy that:

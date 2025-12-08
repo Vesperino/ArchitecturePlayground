@@ -16,7 +16,7 @@
 | **Databases** | PostgreSQL, MongoDB, Redis |
 | **Messaging** | MassTransit, RabbitMQ, Outbox Pattern |
 | **Security** | OAuth 2.0, JWT, OWASP Top 10 |
-| **DevOps** | Docker, GitHub Actions |
+| **DevOps** | Docker, GitHub Actions, Render, Vercel |
 | **Cloud** | Azure, Supabase, MongoDB Atlas, Upstash, CloudAMQP |
 | **Testing** | xUnit, Testcontainers, Playwright, NetArchTest |
 
@@ -150,6 +150,19 @@ dotnet test --filter Category=Architecture
 - [Tech Stack](docs/architecture/tech-stack.md) - Technology choices
 - [Architecture Decisions](docs/adr/) - ADRs
 - [Architecture Plan](docs/ARCHITECTURE_PLAN.md) - Full technical specification
+
+## Deployment
+
+| Component | Platform | Type |
+|-----------|----------|------|
+| Backend API | Render | Docker container |
+| Frontend | Vercel | Static (auto-deploy) |
+
+### CI/CD Pipeline
+
+GitHub Actions automatically:
+1. **CI** (on push/PR): Build, test, Docker image validation
+2. **Deploy** (on master, after CI passes): Trigger Render webhook
 
 ## Cloud Services (Free Tiers)
 

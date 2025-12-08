@@ -23,7 +23,6 @@ const removeItem = (id: number) => {
 }
 
 const checkout = () => {
-  console.log('Proceeding to checkout')
   // TODO: Implement checkout logic
 }
 </script>

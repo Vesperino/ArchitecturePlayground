@@ -50,13 +50,15 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-// Enable Swagger in all environments for demo purposes
-app.UseSwagger();
-app.UseSwaggerUI(options =>
+if (app.Environment.IsDevelopment())
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ArchitecturePlayground API v1");
-    options.RoutePrefix = "swagger";
-});
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "ArchitecturePlayground API v1");
+        options.RoutePrefix = "swagger";
+    });
+}
 
 // CORS must be before other middleware
 app.UseCors();

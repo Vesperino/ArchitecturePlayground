@@ -13,7 +13,6 @@ const isLoading = ref(false)
 const handleRegister = async () => {
   isLoading.value = true
   // TODO: Implement registration logic
-  console.log('Register attempt:', form.value.email)
   isLoading.value = false
 }
 </script>
