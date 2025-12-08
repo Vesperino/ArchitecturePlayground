@@ -634,7 +634,7 @@ classDiagram
     Product "*" --> "*" Category : categories
     Product "1" --> "*" Review : reviews
 
-    note for Product "Flexible attributes:\n- Electronics: brand, specs\n- Clothing: size, color\n- Books: author, ISBN"
+    note for Product "Flexible attributes:<br/>Electronics: brand, specs<br/>Clothing: size, color<br/>Books: author, ISBN"
 ```
 
 ### Redis Data Structures
@@ -644,29 +644,29 @@ Redis usage patterns across modules.
 ```mermaid
 flowchart LR
     subgraph "Session & Auth"
-        S1[session:{userId}]
-        S2[rate-limit:{ip}:{endpoint}]
-        S3[blacklist:{tokenJti}]
+        S1["session:#123;userId#125;"]
+        S2["rate-limit:#123;ip#125;:#123;endpoint#125;"]
+        S3["blacklist:#123;tokenJti#125;"]
     end
 
     subgraph "Shopping Cart"
-        C1[cart:{userId}]
-        C2[cart:{guestId}]
+        C1["cart:#123;userId#125;"]
+        C2["cart:#123;guestId#125;"]
     end
 
     subgraph "Caching"
-        CA1[product:{id}]
-        CA2[category:{slug}]
-        CA3[user:{id}:profile]
+        CA1["product:#123;id#125;"]
+        CA2["category:#123;slug#125;"]
+        CA3["user:#123;id#125;:profile"]
     end
 
     subgraph "Saga State"
-        SA1[saga:order:{correlationId}]
+        SA1["saga:order:#123;correlationId#125;"]
     end
 
     subgraph "Real-time"
-        RT1[signalr:connections:{userId}]
-        RT2[notifications:{userId}]
+        RT1["signalr:connections:#123;userId#125;"]
+        RT2["notifications:#123;userId#125;"]
     end
 
     S1 -.->|"HASH<br/>TTL: 30min"| D1[Structure]
