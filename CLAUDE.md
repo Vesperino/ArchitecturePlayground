@@ -294,6 +294,49 @@ If something is unclear or ambiguous:
 
 ---
 
+## Mandatory Skills Workflow (CRITICAL)
+
+Claude MUST use skills from `superpowers` plugin. This is NOT optional.
+
+### Before ANY Task
+1. Check if relevant skill exists
+2. If yes → Use the Skill tool to load it
+3. Announce which skill is being used
+4. Follow skill instructions exactly
+
+### Mandatory Skills by Context
+
+| Context | Required Skill |
+|---------|----------------|
+| Before writing ANY code | `superpowers:brainstorming` |
+| Implementing features/bugfixes | `superpowers:test-driven-development` |
+| Debugging/errors | `superpowers:systematic-debugging` |
+| Before claiming "done" | `superpowers:verification-before-completion` |
+| After implementation + tests pass | `superpowers:post-implementation-docs` (custom) |
+| Creating implementation plans | `superpowers:writing-plans` |
+| Executing plans | `superpowers:executing-plans` |
+| Code review needed | `superpowers:requesting-code-review` |
+| Receiving review feedback | `superpowers:receiving-code-review` |
+| Finishing branch work | `superpowers:finishing-a-development-branch` |
+| 3+ independent problems | `superpowers:dispatching-parallel-agents` |
+
+### Post-Implementation Documentation (Custom Workflow)
+
+After feature implementation when tests pass:
+1. Dispatch background agent to update documentation
+2. Agent updates: README, API docs, ADRs if needed, diagrams
+3. Agent creates PR or commits with doc changes
+4. Main work continues without blocking
+
+### Forbidden Rationalizations
+These thoughts = STOP and use skill:
+- "This is simple, no skill needed" → WRONG
+- "I'll be quick" → WRONG
+- "Skill is overkill" → WRONG
+- "Let me just do this first" → WRONG
+
+---
+
 ## Current Phase: Documentation & Setup
 
 Priority order:
