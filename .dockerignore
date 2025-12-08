@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.vs
+.vscode
+.idea
+*.user
+*.suo
+
+# Build outputs
+**/bin
+**/obj
+**/out
+
+# Node modules (frontend)
+**/node_modules
+src/Web
+
+# Documentation
+docs
+*.md
+
+# Tests
+tests
+**/*.Tests
+
+# Docker
+**/Dockerfile*
+docker-compose*
+
+# Misc
+.env
+*.log
+infrastructure
