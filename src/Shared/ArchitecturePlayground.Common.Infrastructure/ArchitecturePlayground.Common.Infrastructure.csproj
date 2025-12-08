@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>ArchitecturePlayground.Shared.Infrastructure</RootNamespace>
+    <RootNamespace>ArchitecturePlayground.Common.Infrastructure</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared.Abstractions\Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\ArchitecturePlayground.Common.Abstractions\ArchitecturePlayground.Common.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

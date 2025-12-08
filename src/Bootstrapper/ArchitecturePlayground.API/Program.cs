@@ -1,3 +1,4 @@
+using System.Globalization;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,7 @@ builder.Host.UseSerilog((context, loggerConfig) =>
     loggerConfig
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
-        .WriteTo.Console();
+        .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture);
 });
 
 // Add services to the container

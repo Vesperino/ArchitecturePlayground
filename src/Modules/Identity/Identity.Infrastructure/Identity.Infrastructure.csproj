@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Identity.Core\Identity.Core.csproj" />
-    <ProjectReference Include="..\..\..\Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Shared\ArchitecturePlayground.Common.Infrastructure\ArchitecturePlayground.Common.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

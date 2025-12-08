@@ -9,9 +9,9 @@ COPY Directory.Packages.props .
 
 # Copy all project files for restore
 COPY src/Bootstrapper/ArchitecturePlayground.API/*.csproj src/Bootstrapper/ArchitecturePlayground.API/
-COPY src/Shared/Shared.Abstractions/*.csproj src/Shared/Shared.Abstractions/
-COPY src/Shared/Shared.Infrastructure/*.csproj src/Shared/Shared.Infrastructure/
-COPY src/Shared/Shared.Contracts/*.csproj src/Shared/Shared.Contracts/
+COPY src/Shared/ArchitecturePlayground.Common.Abstractions/*.csproj src/Shared/ArchitecturePlayground.Common.Abstractions/
+COPY src/Shared/ArchitecturePlayground.Common.Infrastructure/*.csproj src/Shared/ArchitecturePlayground.Common.Infrastructure/
+COPY src/Shared/ArchitecturePlayground.Common.Contracts/*.csproj src/Shared/ArchitecturePlayground.Common.Contracts/
 COPY src/Modules/Identity/Identity.Core/*.csproj src/Modules/Identity/Identity.Core/
 COPY src/Modules/Identity/Identity.Infrastructure/*.csproj src/Modules/Identity/Identity.Infrastructure/
 COPY src/Modules/Identity/Identity.Contracts/*.csproj src/Modules/Identity/Identity.Contracts/

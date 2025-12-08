@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Shared.Abstractions\Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Shared\ArchitecturePlayground.Common.Abstractions\ArchitecturePlayground.Common.Abstractions.csproj" />
     <ProjectReference Include="..\Identity.Contracts\Identity.Contracts.csproj" />
   </ItemGroup>
 

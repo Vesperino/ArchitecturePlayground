@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{C8E42992-5E42-0C2B-DBFE-AA848D06431C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Abstractions", "src\Shared\Shared.Abstractions\Shared.Abstractions.csproj", "{7907C6E0-BB65-455B-AC61-F7D600F1431B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitecturePlayground.Common.Abstractions", "src\Shared\ArchitecturePlayground.Common.Abstractions\ArchitecturePlayground.Common.Abstractions.csproj", "{7907C6E0-BB65-455B-AC61-F7D600F1431B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Infrastructure", "src\Shared\Shared.Infrastructure\Shared.Infrastructure.csproj", "{00CED4EB-18CD-465B-85CF-C1EB5EB29D35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitecturePlayground.Common.Infrastructure", "src\Shared\ArchitecturePlayground.Common.Infrastructure\ArchitecturePlayground.Common.Infrastructure.csproj", "{00CED4EB-18CD-465B-85CF-C1EB5EB29D35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Contracts", "src\Shared\Shared.Contracts\Shared.Contracts.csproj", "{6F52588D-3FBB-4951-82C9-EAC91241B8A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchitecturePlayground.Common.Contracts", "src\Shared\ArchitecturePlayground.Common.Contracts\ArchitecturePlayground.Common.Contracts.csproj", "{6F52588D-3FBB-4951-82C9-EAC91241B8A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Contracts", "src\Modules\Identity\Identity.Contracts\Identity.Contracts.csproj", "{4E203DC3-1775-4279-92AE-DDED603A8C8B}"
 EndProject
