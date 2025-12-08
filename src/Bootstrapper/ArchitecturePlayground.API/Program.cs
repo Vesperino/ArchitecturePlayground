@@ -23,6 +23,21 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Configure CORS
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? ["http://localhost:5173"];
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
 // TODO: Add module registrations
 // builder.Services.AddIdentityModule(builder.Configuration);
 // builder.Services.AddCatalogModule(builder.Configuration);
@@ -34,14 +49,20 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments for demo purposes
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "ArchitecturePlayground API v1");
-        options.RoutePrefix = "swagger";
-    });
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ArchitecturePlayground API v1");
+    options.RoutePrefix = "swagger";
+});
+
+// CORS must be before other middleware
+app.UseCors();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
