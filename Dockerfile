@@ -31,11 +31,16 @@ COPY src/Modules/Notification/Notification.Core/*.csproj src/Modules/Notificatio
 COPY src/Modules/Notification/Notification.Infrastructure/*.csproj src/Modules/Notification/Notification.Infrastructure/
 COPY src/Modules/Notification/Notification.Contracts/*.csproj src/Modules/Notification/Notification.Contracts/
 
+# Copy test projects (needed for solution restore)
+COPY tests/Architecture.Tests/*.csproj tests/Architecture.Tests/
+COPY tests/Modules/Identity.Tests/*.csproj tests/Modules/Identity.Tests/
+
 # Restore dependencies
 RUN dotnet restore
 
 # Copy all source code
 COPY src/ src/
+COPY tests/ tests/
 
 # Build and publish
 RUN dotnet publish src/Bootstrapper/ArchitecturePlayground.API/ArchitecturePlayground.API.csproj \
