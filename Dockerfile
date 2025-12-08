@@ -2,12 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy solution and build files
-COPY ArchitecturePlayground.sln .
+# Copy central package management and build props
 COPY Directory.Build.props .
 COPY Directory.Packages.props .
 
-# Copy all project files for restore
+# Copy all production project files for restore (no tests)
 COPY src/Bootstrapper/ArchitecturePlayground.API/*.csproj src/Bootstrapper/ArchitecturePlayground.API/
 COPY src/Shared/ArchitecturePlayground.Common.Abstractions/*.csproj src/Shared/ArchitecturePlayground.Common.Abstractions/
 COPY src/Shared/ArchitecturePlayground.Common.Infrastructure/*.csproj src/Shared/ArchitecturePlayground.Common.Infrastructure/
@@ -31,16 +30,11 @@ COPY src/Modules/Notification/Notification.Core/*.csproj src/Modules/Notificatio
 COPY src/Modules/Notification/Notification.Infrastructure/*.csproj src/Modules/Notification/Notification.Infrastructure/
 COPY src/Modules/Notification/Notification.Contracts/*.csproj src/Modules/Notification/Notification.Contracts/
 
-# Copy test projects (needed for solution restore)
-COPY tests/Architecture.Tests/*.csproj tests/Architecture.Tests/
-COPY tests/Modules/Identity.Tests/*.csproj tests/Modules/Identity.Tests/
+# Restore only the API project (will restore all dependencies transitively)
+RUN dotnet restore src/Bootstrapper/ArchitecturePlayground.API/ArchitecturePlayground.API.csproj
 
-# Restore dependencies
-RUN dotnet restore
-
-# Copy all source code
+# Copy source code (no tests - excluded by .dockerignore)
 COPY src/ src/
-COPY tests/ tests/
 
 # Build and publish
 RUN dotnet publish src/Bootstrapper/ArchitecturePlayground.API/ArchitecturePlayground.API.csproj \
