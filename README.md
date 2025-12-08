@@ -6,6 +6,8 @@
 ![Vue](https://img.shields.io/badge/Vue-3.x-4FC08D?logo=vue.js)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
+**Live Demo:** [architecture-playground.vercel.app](https://architecture-playground.vercel.app/)
+
 ## What This Project Demonstrates
 
 | Category | Technologies & Patterns |
