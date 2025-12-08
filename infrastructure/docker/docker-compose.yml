@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # PostgreSQL - Main database for Identity, Orders, Payments
   postgres:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     container_name: architectureplayground-postgres
     environment:
       POSTGRES_USER: postgres
@@ -21,7 +21,7 @@ services:
 
   # MongoDB - Catalog with flexible product attributes
   mongodb:
-    image: mongo:7
+    image: mongo:8
     container_name: architectureplayground-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
@@ -38,7 +38,7 @@ services:
 
   # Redis - Caching, sessions, basket
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: architectureplayground-redis
     ports:
       - "6379:6379"
@@ -52,7 +52,7 @@ services:
 
   # RabbitMQ - Async messaging
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:4-management-alpine
     container_name: architectureplayground-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: guest
