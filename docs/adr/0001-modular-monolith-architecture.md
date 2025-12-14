@@ -27,6 +27,7 @@ Each module:
 - Has its own `.Core`, `.Infrastructure`, and `.Contracts` projects
 - Owns its data (separate DbContext per module)
 - Communicates with other modules only through `.Contracts` (interfaces, DTOs, events)
+- Depends on `Common.Abstractions` (Shared Kernel) for foundational DDD building blocks
 - Can be extracted to a microservice if scaling demands
 
 ## Consequences
@@ -50,6 +51,7 @@ Each module:
 
 - Requires discipline to maintain module boundaries
 - Architecture tests needed to enforce boundaries
+- Shared Kernel (`Common.Abstractions`) must remain stable and contain only foundational abstractions
 
 ## Alternatives Considered
 
