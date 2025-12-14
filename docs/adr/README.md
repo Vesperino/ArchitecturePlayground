@@ -20,6 +20,7 @@ An Architecture Decision Record captures an important architectural decision mad
 | [0008](0008-api-versioning-strategy.md) | API Versioning Strategy | Accepted | 2025-01 |
 | [0009](0009-validation-strategy.md) | Validation Strategy | Accepted | 2025-01 |
 | [0010](0010-error-handling-strategy.md) | Error Handling Strategy | Accepted | 2025-01 |
+| [0011](0011-pure-ddd-identity-module.md) | Pure DDD for Identity Module | Accepted | 2025-12 |
 
 ## Template
 

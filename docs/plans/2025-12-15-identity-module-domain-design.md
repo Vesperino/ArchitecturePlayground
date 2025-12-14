@@ -1,21 +1,21 @@
 # Identity Module Domain Design
 
-**Data:** 2025-12-15
-**Status:** Zaimplementowany
-**Styl:** CodeOpinion (pragmatyczny DDD)
-**Testy:** 46 (Email: 25, Password: 7, User: 13, inne: 1)
+**Date:** 2025-12-15
+**Status:** Implemented
+**Style:** CodeOpinion (pragmatic DDD)
+**Tests:** 46 (Email: 25, Password: 7, User: 13, other: 1)
 
-## Decyzje architektoniczne
+## Architectural Decisions
 
-| Decyzja | Wybór | Uzasadnienie |
-|---------|-------|--------------|
-| Podejście | Czysta DDD | Bez ASP.NET Core Identity - prostsze testowanie, spójność z architekturą |
-| UserId | `Guid` bezpośrednio | YAGNI - Strongly-Typed ID to overengineering dla tego projektu |
-| RefreshToken | Infrastructure (POCO) | Nie jest konceptem domenowym - brak reguł biznesowych |
-| Walidacja inputu | FluentValidation | Walidacja firstName/lastName w RegisterCommandValidator |
-| Audit logowań | Infrastructure | Szczegóły (IP, User-Agent) to nie domena |
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| Approach | Pure DDD | No ASP.NET Core Identity - simpler testing, consistency with architecture |
+| UserId | `Guid` directly | YAGNI - Strongly-Typed ID is overengineering for this project |
+| RefreshToken | Infrastructure (POCO) | Not a domain concept - no business rules |
+| Input validation | FluentValidation | firstName/lastName validation in RegisterCommandValidator |
+| Login audit | Infrastructure | Details (IP, User-Agent) are not domain concerns |
 
-## Struktura plików
+## File Structure
 
 ```
 Identity.Core/
@@ -23,15 +23,15 @@ Identity.Core/
 │   ├── User.cs                         # Aggregate Root
 │   ├── ValueObjects/
 │   │   ├── Email.cs                    # RFC 5322 validation + normalization
-│   │   └── Password.cs                 # Hash only (IPasswordHasher w Infrastructure)
+│   │   └── Password.cs                 # Hash only (IPasswordHasher in Infrastructure)
 │   └── Events/
 │       ├── UserCreatedEvent.cs         # → Notification module (welcome email)
 │       └── UserPasswordChangedEvent.cs # → Security alert
 └── Features/
-    └── (Register, Login, etc. - następny krok)
+    └── (Register, Login, etc. - next step)
 ```
 
-## Implementacja
+## Implementation
 
 ### Email Value Object
 
@@ -78,12 +78,12 @@ public sealed class Email : ValueObject
 }
 ```
 
-**Walidacja RFC 5322:**
-- Brak podwójnych kropek (`..`)
-- Nie zaczyna/kończy się kropką
-- Domena nie zaczyna/kończy się od `-`
-- Limity długości segmentów (local: 64, domain segments: 63)
-- Normalizacja: `Trim()` + `ToLowerInvariant()`
+**RFC 5322 Validation:**
+- No double dots (`..`)
+- Does not start/end with a dot
+- Domain does not start/end with `-`
+- Segment length limits (local: 64, domain segments: 63)
+- Normalization: `Trim()` + `ToLowerInvariant()`
 
 ### Password Value Object
 
@@ -111,11 +111,11 @@ public sealed class Password : ValueObject
         yield return Hash;
     }
 
-    // Brak ToString() - security by design
+    // No ToString() - security by design
 }
 ```
 
-**Flow haszowania:**
+**Hashing Flow:**
 ```
 RegisterCommand (plain-text)
     ↓
@@ -215,7 +215,7 @@ public sealed class User : AggregateRoot<Guid>
 }
 ```
 
-## TODO: Infrastructure (do zaimplementowania później)
+## TODO: Infrastructure (to be implemented later)
 
 ### LoginAuditLog - Security Audit
 
@@ -236,9 +236,9 @@ public class LoginAuditLog
 ```
 
 **Use cases:**
-- "Wykryto logowanie z nowego urządzenia" - powiadomienie email
-- "Historia logowań" - widok w profilu użytkownika
-- "Podejrzana aktywność" - wiele nieudanych prób z różnych IP
+- "Login detected from new device" - email notification
+- "Login history" - view in user profile
+- "Suspicious activity" - multiple failed attempts from different IPs
 
 ### RefreshToken - Token Management
 
@@ -248,8 +248,8 @@ public class RefreshToken
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
-    public string TokenHash { get; set; }      // Nigdy plain-text
-    public DateTime ExpiresAt { get; set; }    // 7 dni od utworzenia
+    public string TokenHash { get; set; }      // Never plain-text
+    public DateTime ExpiresAt { get; set; }    // 7 days from creation
     public DateTime CreatedAt { get; set; }
     public DateTime? RevokedAt { get; set; }
     public string CreatedByIp { get; set; }
@@ -262,10 +262,10 @@ public class RefreshToken
 }
 ```
 
-### IPasswordHasher - Interfejs
+### IPasswordHasher - Interface
 
 ```csharp
-// Identity.Core/Abstractions/IPasswordHasher.cs (lub Common.Abstractions)
+// Identity.Core/Abstractions/IPasswordHasher.cs (or Common.Abstractions)
 public interface IPasswordHasher
 {
     string Hash(string password);
@@ -273,17 +273,17 @@ public interface IPasswordHasher
 }
 ```
 
-**Implementacja w Infrastructure** - np. BCrypt, Argon2, lub ASP.NET Core Identity's PasswordHasher.
+**Implementation in Infrastructure** - e.g., BCrypt, Argon2, or ASP.NET Core Identity's PasswordHasher.
 
-## Następne kroki
+## Next Steps
 
-1. ~~**Implementacja Domain** (ten plan) - TDD~~ ✅ Zaimplementowano 2025-12-15
+1. ~~**Domain Implementation** (this plan) - TDD~~ Implemented 2025-12-15
 2. **Features: Register** - Command, Handler, Validator, Endpoint
-3. **Features: Login** - z LoginAuditLog
+3. **Features: Login** - with LoginAuditLog
 4. **Infrastructure: Persistence** - EF Core, DbContext
 5. **Infrastructure: Services** - PasswordHasher, JwtTokenService
 
-## Powiązane dokumenty
+## Related Documents
 
 - [ADR-0009: Validation Strategy](../adr/0009-validation-strategy.md)
 - [ADR-0010: Error Handling Strategy](../adr/0010-error-handling-strategy.md)
