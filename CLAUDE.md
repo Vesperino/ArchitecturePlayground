@@ -13,7 +13,7 @@ src/
 │   ├── Catalog/            # Products, categories (MongoDB)
 │   ├── Identity/           # Auth, users (PostgreSQL)
 │   ├── Orders/             # Order processing (PostgreSQL)
-│   └── Shared/             # Cross-cutting concerns
+│   └── Shared/             # Cross-cutting concerns.
 └── Web/vue-storefront/     # Frontend (Vue 3)
 ```
 

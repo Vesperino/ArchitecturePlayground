@@ -2,11 +2,11 @@
 
 ## Status
 
-Accepted
+Implemented (Interfaces)
 
 ## Date
 
-2025-01
+2025-01 (Updated: 2025-12-14)
 
 ## Context
 
@@ -84,6 +84,39 @@ Build our own mediator without MediatR.
 - Reinventing the wheel
 - MediatR is battle-tested
 - Good community support
+
+## Implementation Status
+
+**Implemented in:** `ArchitecturePlayground.Common.Abstractions.CQRS` (2025-12-14)
+
+CQRS interfaces are now part of the Shared Kernel:
+
+```csharp
+// Commands
+public interface ICommand : IRequest;
+public interface ICommand<out TResponse> : IRequest<TResponse>;
+
+// Queries
+public interface IQuery<out TResponse> : IRequest<TResponse>;
+
+// Handlers
+public interface ICommandHandler<in TCommand> : IRequestHandler<TCommand>
+    where TCommand : ICommand;
+
+public interface ICommandHandler<in TCommand, TResponse> : IRequestHandler<TCommand, TResponse>
+    where TCommand : ICommand<TResponse>;
+
+public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
+    where TQuery : IQuery<TResponse>;
+```
+
+All interfaces extend MediatR's `IRequest` and `IRequestHandler` for seamless pipeline integration.
+
+**Next steps:**
+- Implement MediatR behaviors (ValidationBehavior, LoggingBehavior, TransactionBehavior) in `Common.Infrastructure`
+- Use interfaces in module features (Identity, Catalog, Orders)
+
+See `docs/plans/2025-12-14-shared-kernel-design.md` for detailed implementation documentation.
 
 ## References
 

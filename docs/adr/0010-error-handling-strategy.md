@@ -2,11 +2,11 @@
 
 ## Status
 
-Accepted
+Implemented
 
 ## Date
 
-2025-01
+2025-01 (Updated: 2025-12-14)
 
 ## Context
 
@@ -43,22 +43,22 @@ public sealed class Result<T>
 {
     public bool IsSuccess { get; }
     public T Value { get; }
-    public Error Error { get; }
+    public DomainError Error { get; }
 
     public static Result<T> Success(T value);
-    public static Result<T> Failure(Error error);
+    public static Result<T> Failure(DomainError error);
 }
 
 // Usage
-public async Task<Result<Guid>> Handle(CreateOrderCommand cmd)
+public async Task<Result<Guid>> Handle(CreateOrderCommand cmd, CancellationToken ct)
 {
     if (!await _inventory.HasStock(cmd.Items))
-        return Result<Guid>.Failure(Error.Validation("Insufficient stock"));
+        return DomainError.Validation("Order.InsufficientStock", "Insufficient stock");
 
     var order = Order.Create(cmd.UserId, cmd.Items);
     await _repository.AddAsync(order);
 
-    return Result<Guid>.Success(order.Id);
+    return order.Id; // Implicit conversion from T to Result<T>
 }
 ```
 
@@ -137,15 +137,36 @@ Return Problem Details (500)
 ## Error Types
 
 ```csharp
-public sealed class Error
+public sealed record DomainError
 {
     public string Code { get; }
     public string Message { get; }
+    public ErrorType Type { get; }
 
-    public static Error NotFound(string message) => new("NotFound", message);
-    public static Error Validation(string message) => new("Validation", message);
-    public static Error Conflict(string message) => new("Conflict", message);
-    public static Error Unauthorized(string message) => new("Unauthorized", message);
+    public static DomainError NotFound(string code, string message) =>
+        new(code, message, ErrorType.NotFound);
+
+    public static DomainError Validation(string code, string message) =>
+        new(code, message, ErrorType.Validation);
+
+    public static DomainError Conflict(string code, string message) =>
+        new(code, message, ErrorType.Conflict);
+
+    public static DomainError Unauthorized(string code, string message) =>
+        new(code, message, ErrorType.Unauthorized);
+
+    public static DomainError Forbidden(string code, string message) =>
+        new(code, message, ErrorType.Forbidden);
+}
+
+public enum ErrorType
+{
+    Failure,      // 500
+    Validation,   // 400
+    NotFound,     // 404
+    Conflict,     // 409
+    Unauthorized, // 401
+    Forbidden     // 403
 }
 ```
 
@@ -189,6 +210,24 @@ Use `OneOf<Success, Error>` library.
 - Additional dependency
 - Result pattern is simpler for our use case
 - Less familiar to .NET developers
+
+## Implementation Status
+
+**Implemented in:** `ArchitecturePlayground.Common.Abstractions` (2025-12-14)
+
+- `Result` and `Result<T>` in `Results/Result.cs` and `Results/ResultT.cs`
+- `DomainError` in `Results/DomainError.cs`
+- `ErrorType` enum in `Results/ErrorType.cs`
+- Domain exceptions in `Exceptions/` (DomainException, NotFoundException, ConflictException, ValidationException)
+- **42 unit tests** covering all functionality
+
+**Design choices made:**
+- Named `DomainError` instead of `Error` to avoid naming conflicts with system types
+- Used simple Result style (not Railway Oriented Programming) for pragmatism
+- Included implicit conversions (`T -> Result<T>`, `DomainError -> Result`) to reduce boilerplate
+- Provided `Match` method for functional-style pattern matching when needed
+
+See `docs/plans/2025-12-14-shared-kernel-design.md` for detailed implementation documentation.
 
 ## References
 

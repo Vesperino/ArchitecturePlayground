@@ -873,6 +873,37 @@ Module/
     └── Events/            # Integration events
 ```
 
+## Shared Kernel
+
+The Shared Kernel (`ArchitecturePlayground.Common.Abstractions`) provides foundational building blocks used across all modules:
+
+### Result Pattern
+- `Result` / `Result<T>` - Functional error handling for expected failures
+- `DomainError` - Structured error with code, message, and type for HTTP mapping
+- `ErrorType` - Enum for mapping errors to HTTP status codes
+
+### Domain Building Blocks
+- `Entity<TId>` - Base class for entities with typed identity
+- `AggregateRoot<TId>` - Entity with domain event collection
+- `ValueObject` - Base class for value objects with structural equality
+- `IDomainEvent` / `DomainEvent` - Domain event interfaces and base implementation
+
+### CQRS Interfaces
+- `ICommand` / `ICommand<T>` - Command markers
+- `IQuery<T>` - Query marker
+- `ICommandHandler<T>` / `ICommandHandler<T,R>` - Command handlers
+- `IQueryHandler<T,R>` - Query handlers
+
+All CQRS interfaces extend MediatR for pipeline integration (validation, logging, transactions).
+
+### Domain Exceptions
+- `DomainException` - Base for domain-specific errors (500)
+- `NotFoundException` - Resource not found (404)
+- `ConflictException` - Business rule violation (409)
+- `ValidationException` - Domain validation failure (400)
+
+See `docs/plans/2025-12-14-shared-kernel-design.md` for detailed implementation documentation.
+
 ## Key Architectural Decisions
 
 See [Architecture Decision Records](../adr/) for detailed reasoning behind:
