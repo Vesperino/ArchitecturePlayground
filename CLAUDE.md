@@ -29,9 +29,13 @@ docker-compose up -d
 
 ## Documentation
 
+- **Current work/handoff** → `docs/CURRENT_WORK.md` (START HERE for fresh context)
 - Architecture details → `docs/architecture/README.md`
 - ADRs → `docs/adr/`
+- Design plans → `docs/plans/`
 - API specs → OpenAPI/Swagger (runtime)
+
+**Rule:** All documentation must be written in English.
 
 ---
 
@@ -75,3 +79,21 @@ Exception: small tightly-coupled helper/data classes only.
 4. Document in ADR
 
 **Don't blindly agree.**
+
+---
+
+## Fresh Context Protocol
+
+When starting with fresh context:
+
+1. **Read `docs/CURRENT_WORK.md`** - shows where we left off and what's next
+2. Read referenced design doc if needed for details
+3. Continue from "Next Task"
+
+When finishing work:
+
+1. **Update `docs/CURRENT_WORK.md`**:
+   - Move completed task to "Last Completed"
+   - Set new "Next Task"
+   - Update Status table
+2. Commit changes including the handoff doc update
