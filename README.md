@@ -1,4 +1,4 @@
-# ArchitecturePlayground
+# ArchitecturePlayground Work in progress
 
 > E-Commerce Platform demonstrating enterprise architecture patterns with .NET 9 + Vue 3
 
